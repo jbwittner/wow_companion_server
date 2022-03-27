@@ -1,18 +1,19 @@
-name: Pull request CI
-'on':
-  pull_request:
+name: CI
+on:
+  push:
     branches:
       - master
       - develop
-env:
-  ENV_USERNAME_CI: ${{ secrets.USERNAME_GITHUB_REPO_CI }}
-  ENV_PASSWORD_CI: ${{ secrets.PASSWORD_GITHUB_REPO_CI }}
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   check-pmd:
     runs-on: ubuntu-20.04
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Setup-Java
         uses: actions/setup-java@v1
         with:
@@ -36,6 +37,8 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Setup-Java
         uses: actions/setup-java@v1
         with:
@@ -59,6 +62,8 @@ jobs:
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Setup-Java
         uses: actions/setup-java@v1
         with:
@@ -75,13 +80,51 @@ jobs:
         run: >-
           mvn -s ./.github/workflows/settings.xml -B test
           -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+  sonar:
+    runs-on: ubuntu-20.04
+    needs:
+      - build-application
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup-Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+          java-package: jdk
+          architecture: x64
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >-
+          mvn -s ./.github/workflows/settings.xml -B
+          verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=jbwittner_wow_companion_server
   package-application:
     runs-on: ubuntu-20.04
     needs:
       - tests
+      - sonar
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Setup-Java
         uses: actions/setup-java@v1
         with:
@@ -98,6 +141,3 @@ jobs:
         run: >-
           mvn -s ./.github/workflows/settings.xml -B package -DskipTests
           -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-        env:
-          USENAME: '${{github.actor}}'
-          PASSWORD: '${{ secrets.GITHUB_TOKEN }}'

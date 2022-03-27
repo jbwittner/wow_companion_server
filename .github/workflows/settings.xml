@@ -29,8 +29,8 @@
   <servers>
     <server>
       <id>github</id>
-      <username>${env.ENV_USERNAME_CI}</username>
-      <password>${env.ENV_PASSWORD_CI}</password>
+      <username>${env.USERNAME_GITHUB_REPO_CI}</username>
+      <password>${env.PASSWORD_GITHUB_REPO_CI}</password>
     </server>
   </servers>
 </settings>
