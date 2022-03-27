@@ -1,0 +1,34 @@
+name: Branch CI
+'on':
+  push:
+    branches:
+      - master
+      - develop
+env:
+  ENV_USERNAME_CI: ${{ secrets.USERNAME_GITHUB_REPO_CI }}
+  ENV_PASSWORD_CI: ${{ secrets.PASSWORD_GITHUB_REPO_CI }}
+jobs:
+  package-application:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup-Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+          java-package: jdk
+          architecture: x64
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: '${{ runner.os }}-m2-${{ hashFiles(''**/server/pom.xml'') }}'
+          restore-keys: '${{ runner.os }}-m2'
+      - name: Package application
+        run: >-
+          mvn -s ./.github/workflows/settings.xml -B package -DskipTests --file
+          pom.xml
+          -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        env:
+          USENAME: '${{github.actor}}'
+          PASSWORD: '${{ secrets.GITHUB_TOKEN }}'
