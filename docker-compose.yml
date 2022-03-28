@@ -12,7 +12,6 @@ services:
     volumes:
       - db_volume:/var/lib/mysql
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: WoWCompanionRootPass2022
       MYSQL_DATABASE: wow_companion_db
@@ -25,7 +24,6 @@ services:
     depends_on:
       - mysql
     image: phpmyadmin/phpmyadmin:5.1.3
-    restart: always
     ports:
       - '7100:80'
     environment:
