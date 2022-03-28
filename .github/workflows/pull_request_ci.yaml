@@ -1,8 +1,7 @@
-name: CI
+name: Pull Request CI
 on:
   pull_request:
     branches:
-      - master
       - develop
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
