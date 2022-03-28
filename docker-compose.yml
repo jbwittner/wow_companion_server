@@ -1,7 +1,10 @@
 version: '3'
+
 volumes:
   db_volume:
+
 services:
+
   mysql:
     image: mysql:8.0.28
     ports:
@@ -17,6 +20,7 @@ services:
       MYSQL_PASSWORD: WoWCompanionPass2022
     networks:
       - default
+
   phpmyadmin:
     depends_on:
       - mysql
