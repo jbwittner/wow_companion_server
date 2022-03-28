@@ -1,11 +1,9 @@
 name: CI
 on:
-  push:
+  pull_request:
     branches:
       - master
       - develop
-  pull_request:
-    types: [opened, synchronize, reopened]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -60,7 +58,7 @@ jobs:
         run: >-
           mvn -s ./.github/workflows/settings.xml -B compile
           -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-  tests:
+  tests_sonar:
     runs-on: ubuntu-20.04
     needs:
       - build-application
@@ -81,47 +79,25 @@ jobs:
           path: ~/.m2
           key: '${{ runner.os }}-m2-${{ hashFiles(''**/server/pom.xml'') }}'
           restore-keys: '${{ runner.os }}-m2'
-      - name: Test java part
-        run: >-
-          mvn -s ./.github/workflows/settings.xml -B test
-          -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-  sonar:
-    runs-on: ubuntu-20.04
-    needs:
-      - build-application
-    if: ${{ github.actor != 'dependabot[bot]' }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Setup-Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-          java-package: jdk
-          architecture: x64
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: '${{ runner.os }}-m2-${{ hashFiles(''**/server/pom.xml'') }}'
-          restore-keys: '${{ runner.os }}-m2'
-      - name: Build and analyze
+      - name: Test
+        run: >-
+          mvn -s ./.github/workflows/settings.xml -B test
+          -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      - name: Analyse
         run: >-
           mvn -s ./.github/workflows/settings.xml -B
           verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           -Dsonar.projectKey=jbwittner_wow_companion_server
-  package-application:
+  package_application:
     runs-on: ubuntu-20.04
     needs:
-      - tests
-      - sonar
+      - tests_sonar
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: actions/checkout@v2
