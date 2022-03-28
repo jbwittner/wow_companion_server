@@ -1,0 +1,35 @@
+version: '3'
+
+volumes:
+  db_volume:
+
+services:
+
+  mysql:
+    image: mysql:8.0.28
+    ports:
+      - '7000:3306'
+    volumes:
+      - db_volume:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: WoWCompanionRootPass2022
+      MYSQL_DATABASE: wow_companion_db
+      MYSQL_USER: wow_companion_user
+      MYSQL_PASSWORD: WoWCompanionPass2022
+    networks:
+      - default
+
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin:5.1.3
+    restart: always
+    ports:
+      - '7100:80'
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: WoWCompanionRootPass2022
+    networks:
+      - default
