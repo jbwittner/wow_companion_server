@@ -1,0 +1,38 @@
+application:
+  server:
+    port: 7080
+    url: http://localhost
+  db-param:
+    host: localhost
+    port: 7000
+    db-name: wow_companion_db
+    user: wow_companion_user
+    password: WoWCompanionPass2022
+
+logging:
+  level:
+    org:
+      apache: INFO
+      springframework:
+        web: INFO
+        security: INFO
+        data: INFO
+
+server:
+  port : ${application.server.port}
+
+spring:
+  jpa:
+    show-sql: false
+    database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+  
+  datasource:
+    url: jdbc:mysql://${application.db-param.host}:${application.db-param.port}/${application.db-param.db-name}
+    username: ${application.db-param.user}
+    password: ${application.db-param.password}
+    driverClassName: com.mysql.cj.jdbc.Driver

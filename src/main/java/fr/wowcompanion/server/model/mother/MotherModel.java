@@ -1,4 +1,4 @@
-package fr.wowcompanion.server.model.abstractmodel;
+package fr.wowcompanion.server.model.mother;
 
 import javax.persistence.*;
 
