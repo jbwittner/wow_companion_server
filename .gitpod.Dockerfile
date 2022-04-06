@@ -1,1 +1,1 @@
-FROM gitpod/java-11
+FROM gitpod/workspace-mysql
