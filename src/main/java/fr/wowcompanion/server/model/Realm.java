@@ -27,10 +27,6 @@ public class Realm extends MotherLocalizedBlizzardModel{
     private RealmType realmType;
 
     @ManyToOne
-    @JoinColumn(name = "REALM_REGION_ID")
-    private RealmRegion realmRegion;
-
-    @ManyToOne
     @JoinColumn(name = "REALM_CATEGORY_ID")
     private RealmCategory realmCategory;
 
