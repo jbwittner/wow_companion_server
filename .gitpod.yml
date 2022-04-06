@@ -1,0 +1,6 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - before: cp .gitpod/settings.xml ~/.m2/settings.xml
+  - init: mvn install -DskipTests=false # runs during prebuild
