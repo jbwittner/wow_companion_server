@@ -1,1 +1,1 @@
-FROM gitpod/java-17
+FROM gitpod/java-11
