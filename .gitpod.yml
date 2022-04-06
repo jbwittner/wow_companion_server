@@ -3,5 +3,5 @@ image:
 
 tasks:
   - before: cp .gitpod/settings.xml ~/.m2/settings.xml
-  - init: mvn install -DskipTests=false # runs during prebuild
+  - init: mvn package -DskipTests=false # runs during prebuild
   - command: echo 'start script'
