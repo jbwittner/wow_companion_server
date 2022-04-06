@@ -45,7 +45,7 @@
         <dependency>
             <groupId>fr.jbwittner.blizzardswagger</groupId>
             <artifactId>wowretailapi</artifactId>
-            <version>0.6.0</version>
+            <version>0.7.0</version>
         </dependency>
         <!--Core-->
         <!--Database-->
