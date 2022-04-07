@@ -5,6 +5,7 @@
         "vscjava.vscode-spring-boot-dashboard",
         "pivotal.vscode-spring-boot",
         "gabrielbb.vscode-lombok",
-        "Pivotal.vscode-boot-dev-pack"
+        "pivotal.vscode-boot-dev-pack",
+        "SonarSource.sonarlint-vscode"
     ]
 }

@@ -1,19 +1,38 @@
+application:
+  region: eu
+
 logging:
   level:
     org:
       apache: INFO
-      springframework:
-        web: INFO
-        security: INFO
-        data: INFO
+      springframework: ERROR
 
 spring:
   jpa:
     show-sql: false
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
-  
+      ddl-auto: update
   datasource:
     url: jdbc:h2:mem:${application.db-param.db-name};DB_CLOSE_DELAY=false;DB_CLOSE_ON_EXIT=false;DATABASE_TO_UPPER=false
     driverClassName: org.h2.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          oauth-blizzard:
+            client-id: 683474849cfe4dbfad419029326e0004
+            client-secret: XuhqxDFNhqfu749ZNYKsEp7lj34epg32
+            client-name: WoW Companion (DEV)
+            provider: blizzard
+            scope: wow.profile
+            redirect-uri: "${application.server.url}:${application.server.port}/login/oauth2/code/oauth-blizzard"
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code 
+        provider:
+          blizzard:
+            issuer-uri: https://${application.region}.battle.net/oauth
+            authorization-uri: https://${application.region}.battle.net/oauth/authorize
+            token-uri: https://${application.region}.battle.net/oauth/token
+            user-info-uri: https://${application.region}.battle.net/oauth/userinfo
+            user-name-attribute: battletag
