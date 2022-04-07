@@ -17,11 +17,15 @@ public class PlayableSpecialization extends MotherLocalizedBlizzardModel{
     private String mediaURL;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PLAYABLE_CLASS_ID")
+    @JoinColumn(name = "PLAYABLE_CLASS_ID",
+        foreignKey = @ForeignKey(name = ("FK_PLAYABLE_CLASS_ID"))
+    )
     private PlayableClass playableClass;
 
     @ManyToOne
-    @JoinColumn(name = "SPECIALIZATION_ROLE_ID")
+    @JoinColumn(name = "SPECIALIZATION_ROLE_ID",
+        foreignKey = @ForeignKey(name = ("FK_SPECIALIZATION_ROLE_ID"))
+    )
     private SpecializationRole specializationRole;
 
 }

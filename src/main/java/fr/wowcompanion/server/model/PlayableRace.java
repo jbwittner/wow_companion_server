@@ -14,7 +14,9 @@ import fr.wowcompanion.server.model.mother.MotherLocalizedBlizzardModel;
 public class PlayableRace extends MotherLocalizedBlizzardModel{
 
     @ManyToOne
-    @JoinColumn(name = "FACTION_ID")
+    @JoinColumn(name = "FACTION_ID",
+        foreignKey = @ForeignKey(name = ("FK_FACTION_ID"))
+    )
     private Faction faction;
 
 }
