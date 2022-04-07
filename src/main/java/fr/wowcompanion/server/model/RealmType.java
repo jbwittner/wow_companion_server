@@ -8,7 +8,10 @@ import fr.jbwittner.blizzardswagger.wowretailapi.model.NameData;
 import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 
 @Entity
-@Table(name = "REALM_TYPE")
+@Table(
+    name = "REALM_TYPE",
+    uniqueConstraints = { @UniqueConstraint(name = "UK_TYPE", columnNames = { "TYPE"}) }
+    )
 @Data
 public class RealmType {
 
@@ -17,7 +20,7 @@ public class RealmType {
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Integer id;
 
-    @Column(name = "TYPE",  nullable = false, unique = true)
+    @Column(name = "TYPE", nullable = false)
     private String type;
 
     @Embedded

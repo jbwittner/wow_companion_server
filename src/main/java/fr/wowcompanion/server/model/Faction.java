@@ -11,7 +11,10 @@ import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 @EqualsAndHashCode()
 @Data
 @Entity
-@Table(name = "FACTIONS")
+@Table(
+    name = "FACTIONS",
+    uniqueConstraints = { @UniqueConstraint(name = "UK_TYPE", columnNames = { "TYPE"}) }
+    )
 public class Faction {
 
     @Id
@@ -19,7 +22,7 @@ public class Faction {
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Integer id;
 
-    @Column(name = "TYPE",  nullable = false, unique = true)
+    @Column(name = "TYPE",  nullable = false)
     private String type;
 
     @Embedded
