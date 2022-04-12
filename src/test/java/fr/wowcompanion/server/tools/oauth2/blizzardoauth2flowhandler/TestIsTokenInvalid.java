@@ -29,7 +29,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
     public void testIsTokenInvalidWithValidTokenOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", 
-            Instant.now().plus(BlizzardOAuth2FlowHandler.MINUTES_MARGIN + 1, ChronoUnit.MINUTES));
+            Instant.now().plus(1, ChronoUnit.MINUTES));
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "token", "SomeSampleToken");
 
@@ -43,7 +43,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
     public void testIsTokenInvalidWithInValidTokenOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", 
-            Instant.now().plus(BlizzardOAuth2FlowHandler.MINUTES_MARGIN - 1, ChronoUnit.MINUTES));
+            Instant.now().minus(1, ChronoUnit.MINUTES));
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "token", "SomeSampleToken");
 

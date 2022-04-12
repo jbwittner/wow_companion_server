@@ -6,27 +6,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 
 @Service
 public class BlizzardOAuth2FlowHandler {
 
-    public static final Integer MINUTES_MARGIN = 10;
     private static final Charset ENCODING = StandardCharsets.UTF_8;
     private final Object tokenLock = new Object();
-    private final ObjectMapper objectMapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(BlizzardOAuth2FlowHandler.class);
 
     @Value("${spring.security.oauth2.client.registration.oauth-blizzard.client-id}")
@@ -35,24 +30,25 @@ public class BlizzardOAuth2FlowHandler {
     @Value("${spring.security.oauth2.client.registration.oauth-blizzard.client-secret}")
     private String clientSecret;
 
+    @Value("${spring.security.oauth2.client.provider.blizzard.token-uri}")
+    private String tokenUrl;
+
     private String token = null;
     private Instant tokenExpiry = null; // Instant when the token will expire
 
-    private URL url;
-
-    @Autowired
-    public BlizzardOAuth2FlowHandler(@Value("${spring.security.oauth2.client.provider.blizzard.token-uri}") final String tokenUrl, final ObjectMapper objectMapper) throws MalformedURLException {
-        this.objectMapper = objectMapper;
-        this.url = new URL(tokenUrl);
-    }
-
     public String getToken() throws IOException {
+
         if (this.isTokenInvalid()) {
             LOGGER.info("Fetching/Creating token.");
 
             final String encodedCredentials = Base64.getEncoder().encodeToString(String.format("%s:%s", this.clientId, this.clientSecret).getBytes(BlizzardOAuth2FlowHandler.ENCODING));
 
             // ------------------------------------------------- Allows testing/mocking of the URL connection object
+            
+            URL url = new URL(tokenUrl);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            
             HttpURLConnection con = null;
 
             try {
@@ -84,6 +80,7 @@ public class BlizzardOAuth2FlowHandler {
             }
         }
         synchronized (tokenLock) {
+            LOGGER.debug("Use old token.");
             return token;
         }
     }
@@ -97,8 +94,7 @@ public class BlizzardOAuth2FlowHandler {
             } else if (tokenExpiry == null) {
                 value = true;
             } else {
-                final Instant tokenExpiryModified = tokenExpiry.minus(MINUTES_MARGIN, ChronoUnit.MINUTES);
-                value = Instant.now().isAfter(tokenExpiryModified);
+                value = Instant.now().isAfter(tokenExpiry);
             }
             return value;
         }
