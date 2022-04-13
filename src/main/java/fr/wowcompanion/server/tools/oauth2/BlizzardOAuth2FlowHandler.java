@@ -57,12 +57,14 @@ public class BlizzardOAuth2FlowHandler {
                 con.getOutputStream().write("grant_type=client_credentials".getBytes(BlizzardOAuth2FlowHandler.ENCODING));
 
                 final int responseCode = con.getResponseCode();
-                LOGGER.info(String.format("Sent 'POST' to %s requesting access token via client credentials grant type.", url));
-                LOGGER.info(String.format("Result code: %s", responseCode));
+                LOGGER.info("Sent 'POST' to {} requesting access token via client credentials grant type.", url);
+                LOGGER.info("Result code: {}", responseCode);
 
                 final String response = IOUtils.toString(con.getInputStream(), BlizzardOAuth2FlowHandler.ENCODING);
 
-                LOGGER.debug(String.format("Response: %s", response));
+                if(LOGGER.isDebugEnabled()){
+                    LOGGER.debug("Response: {}", response);
+                }
 
                 // Reads the JSON response and converts
                 // it to TokenResponse class or throws an exception

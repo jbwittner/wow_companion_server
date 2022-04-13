@@ -14,7 +14,7 @@ import fr.wowcompanion.server.tools.oauth2.BlizzardOAuth2FlowHandler;
 /**
  * Test class to test isTokenInvalid method
  */
-public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
+class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
 
     @Autowired
     private BlizzardOAuth2FlowHandler blizzardOAuth2FlowHandler;
@@ -26,7 +26,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
      * Test to check if the token is valid because it has not expired 
      */
     @Test
-    public void testIsTokenInvalidWithValidTokenOk() throws NoSuchFieldException {
+    void testIsTokenInvalidWithValidTokenOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", 
             Instant.now().plus(1, ChronoUnit.MINUTES));
@@ -40,7 +40,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
      * Test to check if the token is valid because it has not expired 
      */
     @Test
-    public void testIsTokenInvalidWithInValidTokenOk() throws NoSuchFieldException {
+    void testIsTokenInvalidWithInValidTokenOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", 
             Instant.now().minus(1, ChronoUnit.MINUTES));
@@ -54,7 +54,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
      * Test to check if the token is not valid
      */
     @Test
-    public void testIsTokenInvalidWithNullTokenOk() throws NoSuchFieldException {
+    void testIsTokenInvalidWithNullTokenOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", null);
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "token", null);
@@ -66,7 +66,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
      * Test to check if the token is valid
      */
     @Test
-    public void testIsTokenInvalidExpiredTokenExpiryOk() throws NoSuchFieldException {
+    void testIsTokenInvalidExpiredTokenExpiryOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", Instant.EPOCH);
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "token", "SomeSampleToken");
@@ -78,7 +78,7 @@ public class TestIsTokenInvalid extends AbstractMotherIntegrationTest {
      * Test to check if the token is valid
      */
     @Test
-    public void testIsTokenInvalidNullTokenExpiryOk() throws NoSuchFieldException {
+    void testIsTokenInvalidNullTokenExpiryOk() throws NoSuchFieldException {
 
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "tokenExpiry", null);
         ReflectionTestUtils.setField(blizzardOAuth2FlowHandler, "token", "SomeSampleToken");

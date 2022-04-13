@@ -1,7 +1,6 @@
 package fr.wowcompanion.server.tools.oauth2;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
 
