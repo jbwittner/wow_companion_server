@@ -10,7 +10,7 @@ import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 @Entity
 @Table(
     name = "REALM_TYPE",
-    uniqueConstraints = { @UniqueConstraint(name = "UK_TYPE", columnNames = { "TYPE"}) }
+    uniqueConstraints = { @UniqueConstraint(name = "UK_TYPE", columnNames = "TYPE") }
     )
 @Data
 public class RealmType {

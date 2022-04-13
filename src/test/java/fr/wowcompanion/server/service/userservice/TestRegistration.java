@@ -1,0 +1,108 @@
+package fr.wowcompanion.server.service.userservice;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import fr.wowcompanion.openapi.model.UserDTO;
+import fr.wowcompanion.openapi.model.UserRegistrationParameter;
+import fr.wowcompanion.server.exception.EmailAlreadyUsedException;
+import fr.wowcompanion.server.exception.UserAlreadyRegistredException;
+import fr.wowcompanion.server.exception.UserNameAlreadyUsedException;
+import fr.wowcompanion.server.model.UserAccount;
+import fr.wowcompanion.server.repository.UserAccountRepository;
+import fr.wowcompanion.server.security.BlizzardDetail;
+import fr.wowcompanion.server.service.implementation.UserServiceImpl;
+import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
+import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
+
+public class TestRegistration extends AbstractMotherIntegrationTest {
+
+    @Mock
+    private AuthenticationFacade authenticationFacade;
+
+    @Autowired
+    private UserAccountRepository userAccountRepository;
+
+    private UserServiceImpl userServiceImpl;
+
+    private UserRegistrationParameter userRegistrationParameter;
+    private BlizzardDetail blizzardDetail;
+
+    @Override
+    protected void initDataBeforeEach() {
+        this.userServiceImpl = new UserServiceImpl(this.authenticationFacade, this.userAccountRepository);
+        this.userRegistrationParameter = new UserRegistrationParameter();
+        this.userRegistrationParameter.setEmail(this.testFactory.getUniqueRandomEmail());
+        this.userRegistrationParameter.setUserName(this.testFactory.getRandomAlphanumericString());
+
+        this.blizzardDetail = new BlizzardDetail();
+        this.blizzardDetail.setBattleTag(this.testFactory.getRandomAlphanumericString());
+        this.blizzardDetail.setBlizzardId(this.testFactory.getUniqueRandomInteger());
+    }
+
+    @Test
+    public void testRegistrationOk(){
+        Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
+
+        final UserDTO userDTO = this.userServiceImpl.registration(this.userRegistrationParameter);
+
+        Assertions.assertEquals(this.blizzardDetail.getBlizzardId(), userDTO.getBlizzardId());
+        Assertions.assertEquals(this.blizzardDetail.getBattleTag(), userDTO.getBattletag());
+        Assertions.assertEquals(this.userRegistrationParameter.getEmail(), userDTO.getEmail());
+        Assertions.assertEquals(this.userRegistrationParameter.getUserName(), userDTO.getUserName());
+        Assertions.assertFalse(userDTO.getIsAdmin());
+    }
+
+    @Test
+    public void testRegistrationBattleTagAlreadyUsed(){
+        final UserAccount userAccount = this.testFactory.getUserAccount();
+        this.blizzardDetail.setBattleTag(userAccount.getBattleTag());
+
+        Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
+
+        Assertions.assertThrows(UserAlreadyRegistredException.class, () -> {
+            this.userServiceImpl.registration(this.userRegistrationParameter);
+        });
+    }
+
+    @Test
+    public void testRegistrationBlizzardIdAlreadyUsed(){
+        final UserAccount userAccount = this.testFactory.getUserAccount();
+        this.blizzardDetail.setBlizzardId(userAccount.getBlizzardId());
+
+        Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
+
+        Assertions.assertThrows(UserAlreadyRegistredException.class, () -> {
+            this.userServiceImpl.registration(this.userRegistrationParameter);
+        });
+    }
+
+    @Test
+    public void testRegistrationEmailAlreadyUsed(){
+        final UserAccount userAccount = this.testFactory.getUserAccount();
+        this.userRegistrationParameter.setEmail(userAccount.getEmail());
+
+        Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
+
+        Assertions.assertThrows(EmailAlreadyUsedException.class, () -> {
+            this.userServiceImpl.registration(this.userRegistrationParameter);
+        });
+    }
+
+    @Test
+    public void testRegistrationUserNameAlreadyUsed(){
+        final UserAccount userAccount = this.testFactory.getUserAccount();
+        this.userRegistrationParameter.setUserName(userAccount.getUserName());
+
+        Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
+
+        Assertions.assertThrows(UserNameAlreadyUsedException.class, () -> {
+            this.userServiceImpl.registration(this.userRegistrationParameter);
+        });
+    }
+    
+    
+}

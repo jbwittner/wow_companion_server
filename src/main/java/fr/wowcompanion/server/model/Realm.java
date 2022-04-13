@@ -12,7 +12,7 @@ import fr.wowcompanion.server.model.mother.MotherLocalizedBlizzardModel;
 @Entity
 @Table(
     name = "REALMS",
-    uniqueConstraints = { @UniqueConstraint(name = "UK_SLUG", columnNames = { "SLUG"}) }
+    uniqueConstraints = { @UniqueConstraint(name = "UK_SLUG", columnNames = "SLUG") }
     )
 public class Realm extends MotherLocalizedBlizzardModel{
 

@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Table(
     name = "REALM_CATEGORY",
-    uniqueConstraints = { @UniqueConstraint(name = "UK_SLUG", columnNames = { "SLUG"}) }
+    uniqueConstraints = { @UniqueConstraint(name = "UK_SLUG", columnNames = "SLUG") }
     )
 @Data
 public class RealmCategory {
