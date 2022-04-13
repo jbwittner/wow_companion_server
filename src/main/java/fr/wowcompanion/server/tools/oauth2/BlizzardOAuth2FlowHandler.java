@@ -43,11 +43,9 @@ public class BlizzardOAuth2FlowHandler {
 
             final String encodedCredentials = Base64.getEncoder().encodeToString(String.format("%s:%s", this.clientId, this.clientSecret).getBytes(BlizzardOAuth2FlowHandler.ENCODING));
 
-            // ------------------------------------------------- Allows testing/mocking of the URL connection object
-            
-            URL url = new URL(tokenUrl);
+            final URL url = new URL(tokenUrl);
 
-            ObjectMapper objectMapper = new ObjectMapper();
+            final ObjectMapper objectMapper = new ObjectMapper();
             
             HttpURLConnection con = null;
 
@@ -66,7 +64,8 @@ public class BlizzardOAuth2FlowHandler {
 
                 LOGGER.debug(String.format("Response: %s", response));
 
-                // Reads the JSON response and converts it to TokenResponse class or throws an exception
+                // Reads the JSON response and converts
+                // it to TokenResponse class or throws an exception
                 final TokenResponse tokenResponse = objectMapper.readValue(response, TokenResponse.class);
                 synchronized (tokenLock) {
                     tokenExpiry = Instant.now().plusSeconds(tokenResponse.getExpiresIn());
