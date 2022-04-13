@@ -23,7 +23,7 @@ import fr.wowcompanion.server.repository.UserAccountRepository;
 import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 
-public class TestGetUserToken extends AbstractMotherIntegrationTest{
+class TestGetUserToken extends AbstractMotherIntegrationTest{
 
     @Autowired
     private UserAccountRepository userAccountRepository;
@@ -39,7 +39,7 @@ public class TestGetUserToken extends AbstractMotherIntegrationTest{
     }
 
     @Test
-    protected void testGetUserToken(){
+    void testGetUserToken(){
 
         final String name = this.testFactory.getRandomAlphanumericString();
         final String authorizedClientRegistrationId = this.testFactory.getRandomAlphanumericString();

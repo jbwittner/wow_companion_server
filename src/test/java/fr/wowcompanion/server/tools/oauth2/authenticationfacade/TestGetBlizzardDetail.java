@@ -21,7 +21,7 @@ import fr.wowcompanion.server.security.BlizzardDetail;
 import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 
-public class TestGetBlizzardDetail extends AbstractMotherIntegrationTest{
+class TestGetBlizzardDetail extends AbstractMotherIntegrationTest{
 
     @Autowired
     private UserAccountRepository userAccountRepository;
@@ -37,7 +37,7 @@ public class TestGetBlizzardDetail extends AbstractMotherIntegrationTest{
     }
 
     @Test
-    protected void testGetBlizzardDetail(){
+    void testGetBlizzardDetail(){
 
         final Integer blizzardId = this.testFactory.getRandomInteger();
         final String battleTag = this.testFactory.getRandomAlphanumericString();

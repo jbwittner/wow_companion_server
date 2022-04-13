@@ -18,7 +18,7 @@ import fr.wowcompanion.server.service.implementation.UserServiceImpl;
 import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 
-public class TestRegistration extends AbstractMotherIntegrationTest {
+class TestRegistration extends AbstractMotherIntegrationTest {
 
     @Mock
     private AuthenticationFacade authenticationFacade;
@@ -44,7 +44,7 @@ public class TestRegistration extends AbstractMotherIntegrationTest {
     }
 
     @Test
-    public void testRegistrationOk(){
+    void testRegistrationOk(){
         Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
 
         final UserDTO userDTO = this.userServiceImpl.registration(this.userRegistrationParameter);
@@ -57,7 +57,7 @@ public class TestRegistration extends AbstractMotherIntegrationTest {
     }
 
     @Test
-    public void testRegistrationBattleTagAlreadyUsed(){
+    void testRegistrationBattleTagAlreadyUsed(){
         final UserAccount userAccount = this.testFactory.getUserAccount();
         this.blizzardDetail.setBattleTag(userAccount.getBattleTag());
 
@@ -69,7 +69,7 @@ public class TestRegistration extends AbstractMotherIntegrationTest {
     }
 
     @Test
-    public void testRegistrationBlizzardIdAlreadyUsed(){
+    void testRegistrationBlizzardIdAlreadyUsed(){
         final UserAccount userAccount = this.testFactory.getUserAccount();
         this.blizzardDetail.setBlizzardId(userAccount.getBlizzardId());
 
@@ -81,7 +81,7 @@ public class TestRegistration extends AbstractMotherIntegrationTest {
     }
 
     @Test
-    public void testRegistrationEmailAlreadyUsed(){
+    void testRegistrationEmailAlreadyUsed(){
         final UserAccount userAccount = this.testFactory.getUserAccount();
         this.userRegistrationParameter.setEmail(userAccount.getEmail());
 
@@ -93,7 +93,7 @@ public class TestRegistration extends AbstractMotherIntegrationTest {
     }
 
     @Test
-    public void testRegistrationUserNameAlreadyUsed(){
+    void testRegistrationUserNameAlreadyUsed(){
         final UserAccount userAccount = this.testFactory.getUserAccount();
         this.userRegistrationParameter.setUserName(userAccount.getUserName());
 
@@ -103,6 +103,5 @@ public class TestRegistration extends AbstractMotherIntegrationTest {
             this.userServiceImpl.registration(this.userRegistrationParameter);
         });
     }
-    
     
 }

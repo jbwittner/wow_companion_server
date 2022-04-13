@@ -21,7 +21,7 @@ import fr.wowcompanion.server.repository.UserAccountRepository;
 import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 
-public class TestGetUserAccount extends AbstractMotherIntegrationTest{
+class TestGetUserAccount extends AbstractMotherIntegrationTest{
 
     @Autowired
     private UserAccountRepository userAccountRepository;
@@ -37,7 +37,7 @@ public class TestGetUserAccount extends AbstractMotherIntegrationTest{
     }
 
     @Test
-    public void testGetUserAccount(){
+    void testGetUserAccount(){
         final UserAccount userAccount = this.testFactory.getUserAccount();
 
         final Integer blizzardId = userAccount.getBlizzardId();

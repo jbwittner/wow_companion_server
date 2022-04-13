@@ -13,7 +13,7 @@ import fr.wowcompanion.server.service.implementation.UserServiceImpl;
 import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 
-public class TestGetUser extends AbstractMotherIntegrationTest {
+class TestGetUser extends AbstractMotherIntegrationTest {
 
     @Mock
     private AuthenticationFacade authenticationFacade;
@@ -29,7 +29,7 @@ public class TestGetUser extends AbstractMotherIntegrationTest {
     }
 
     @Test
-    public void testGetUser(){
+    void testGetUser(){
         final UserAccount userAccount = this.testFactory.getUserAccount();
         Mockito.when(this.authenticationFacade.getUserAccount()).thenReturn(userAccount);
 

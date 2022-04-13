@@ -21,8 +21,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(final HttpSecurity http) throws Exception {
 
         http
-            .cors()
-            .and().csrf().disable()
             .antMatcher("/**").authorizeRequests()
             .antMatchers(PUBLIC_ENDPOINTS).permitAll()
             .anyRequest().authenticated()
