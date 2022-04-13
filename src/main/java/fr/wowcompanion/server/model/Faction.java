@@ -13,7 +13,7 @@ import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 @Entity
 @Table(
     name = "FACTIONS",
-    uniqueConstraints = { @UniqueConstraint(name = "UK_TYPE", columnNames = { "TYPE"}) }
+    uniqueConstraints = { @UniqueConstraint(name = "UK_TYPE", columnNames = "TYPE") }
     )
 public class Faction {
 

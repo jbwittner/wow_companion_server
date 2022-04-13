@@ -1,5 +1,6 @@
 package fr.wowcompanion.server.testhelper;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +8,18 @@ import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import fr.wowcompanion.server.model.UserAccount;
+import fr.wowcompanion.server.repository.UserAccountRepository;
 
 
 @Component
 public class TestFactory {
+
+    @Autowired
+    private UserAccountRepository userAccountRepository;
 
     private final Faker faker = new Faker();
 
@@ -143,6 +151,17 @@ public class TestFactory {
 
     public int getRandomInteger(){
         return this.getRandomInteger(NUMBER_MAX);
+    }
+
+    public UserAccount getUserAccount(){
+        final UserAccount userAccount = new UserAccount();
+        userAccount.setBattleTag(this.getUniqueRandomAlphanumericString());
+        userAccount.setBlizzardId(this.getUniqueRandomInteger());
+        userAccount.setEmail(this.getUniqueRandomEmail());
+        userAccount.setUserName(this.getUniqueRandomAlphanumericString());
+        userAccount.setCreationInstant(Instant.EPOCH);
+        userAccount.setLastLoginInstant(Instant.EPOCH);
+        return this.userAccountRepository.save(userAccount);
     }
 
 }
