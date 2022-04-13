@@ -6,12 +6,4 @@ public abstract class FunctionalException extends RuntimeException{
         super(message);
     }
 
-    protected FunctionalException(final Exception exception){
-        super(exception);
-    }
-
-    protected FunctionalException(){
-        super();
-    }
-    
 }
