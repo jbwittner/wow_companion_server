@@ -1,4 +1,5 @@
 application:
+  region: eu
   server:
     port: 7080
     url: http://localhost
@@ -11,6 +12,7 @@ application:
 
 logging:
   level:
+    fr.wowcompanion.server.tools.oauth2.BlizzardOAuth2FlowHandler: INFO
     org:
       apache: INFO
       springframework:
@@ -26,13 +28,32 @@ spring:
     show-sql: false
     database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-  
   datasource:
     url: jdbc:mysql://${application.db-param.host}:${application.db-param.port}/${application.db-param.db-name}
     username: ${application.db-param.user}
     password: ${application.db-param.password}
     driverClassName: com.mysql.cj.jdbc.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          oauth-blizzard:
+            client-id: 683474849cfe4dbfad419029326e0004
+            client-secret: XuhqxDFNhqfu749ZNYKsEp7lj34epg32
+            client-name: WoW Companion (DEV)
+            provider: blizzard
+            scope: wow.profile
+            redirect-uri: "${application.server.url}:${application.server.port}/login/oauth2/code/oauth-blizzard"
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code 
+        provider:
+          blizzard:
+            issuer-uri: https://${application.region}.battle.net/oauth
+            authorization-uri: https://${application.region}.battle.net/oauth/authorize
+            token-uri: https://${application.region}.battle.net/oauth/token
+            user-info-uri: https://${application.region}.battle.net/oauth/userinfo
+            user-name-attribute: battletag

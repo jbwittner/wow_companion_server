@@ -2,7 +2,7 @@ package fr.wowcompanion.server.model;
 
 import javax.persistence.*;
 
-import fr.jbwittner.blizzardswagger.wowretailapi.model.NameData;
+import fr.jbwittner.blizzardswagger.wowretailapi.model.NameObjectData;
 import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 import lombok.Data;
 
@@ -25,9 +25,9 @@ public class RealmCategory {
     @Embedded
     private LocalizedModel localizedModel;
 
-    public void buildLocalizedModel(final NameData nameData){
+    public void buildLocalizedModel(final NameObjectData nameObjectData){
         this.localizedModel = new LocalizedModel();
-        this.localizedModel.updateLocalizedValue(nameData);
+        this.localizedModel.updateLocalizedValue(nameObjectData);
     }
     
 }

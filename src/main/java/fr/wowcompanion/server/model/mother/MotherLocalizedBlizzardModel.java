@@ -2,7 +2,7 @@ package fr.wowcompanion.server.model.mother;
 
 import lombok.Data;
 
-import fr.jbwittner.blizzardswagger.wowretailapi.model.NameData;
+import fr.jbwittner.blizzardswagger.wowretailapi.model.NameObjectData;
 import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 
 import javax.persistence.Column;
@@ -24,9 +24,9 @@ public class MotherLocalizedBlizzardModel {
     @Embedded
     private LocalizedModel localizedModel;
 
-    public void buildLocalizedModel(final NameData nameData){
+    public void buildLocalizedModel(final NameObjectData nameObjectData){
         this.localizedModel = new LocalizedModel();
-        this.localizedModel.updateLocalizedValue(nameData);
+        this.localizedModel.updateLocalizedValue(nameObjectData);
     }
 
 }
