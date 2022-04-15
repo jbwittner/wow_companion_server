@@ -2,6 +2,7 @@ package fr.wowcompanion.server.tools.api.blizzardapi;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import fr.jbwittner.blizzardswagger.wowretailapi.auth.OAuth;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterData;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.ProfileAccountData;
 import fr.wowcompanion.server.exception.BlizzardAPIException;
+import fr.wowcompanion.server.tools.api.blizzardapi.callback.CharacterCallback;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 import fr.wowcompanion.server.tools.oauth2.BlizzardOAuth2FlowHandler;
 import okhttp3.Interceptor;
@@ -102,6 +104,17 @@ public class BlizzardAPIHelper {
             this.updateServerToken();
             return this.characterProfileApi.getCharacter(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), "");
         } catch (ApiException | IOException e) {
+            throw new BlizzardAPIException(e);
+        }
+    }
+
+    public CompletableFuture<CharacterData> getCharacterAsync(final String realmSlug, final String characterName){
+        try {
+            this.updateUserToken();
+            final CharacterCallback callback = new CharacterCallback(characterName);
+            this.characterProfileApi.getCharacterAsync(this.profileRegion, this.regionValue, realmSlug, characterName, "", callback);
+            return callback;
+        } catch (ApiException e) {
             throw new BlizzardAPIException(e);
         }
     }

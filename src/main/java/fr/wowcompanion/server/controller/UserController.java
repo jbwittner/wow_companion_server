@@ -1,5 +1,9 @@
 package fr.wowcompanion.server.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +42,8 @@ public class UserController implements UserApi {
 
     @GetMapping("/toto")
     public void toto() {
+        final long startTime = System.currentTimeMillis();
+
         var tata = this.blizzardAPIHelper.getProfileAccountData();
         //System.out.println(tata);
 
@@ -47,6 +53,36 @@ public class UserController implements UserApi {
             var character = this.blizzardAPIHelper.getCharacter(characterIndexData.getRealm().getSlug(), characterIndexData.getName());
             //System.out.println(character);
         }
+
+        final long endTime = System.currentTimeMillis() - startTime;
+
+        System.out.println(endTime);
+    }
+
+    @GetMapping("/titi")
+    public void titi() {
+        final long startTime = System.currentTimeMillis();
+
+        var tata = this.blizzardAPIHelper.getProfileAccountData();
+        //System.out.println(tata);
+
+        var characters = tata.getWowAccounts().get(0).getCharacters();
+
+        final List<CompletableFuture<CharacterData>> completableFuturesCharacterData = new ArrayList<>();
+
+        for(CharacterIndexData characterIndexData : characters){
+            final CompletableFuture<CharacterData> completableFutureCharacterData =
+                this.blizzardAPIHelper.getCharacterAsync(characterIndexData.getRealm().getSlug(), characterIndexData.getName().toLowerCase());
+            completableFuturesCharacterData.add(completableFutureCharacterData);
+        }
+
+        completableFuturesCharacterData.forEach((completableFuture) -> {
+            final CharacterData data = completableFuture.join();
+        });
+
+        final long endTime = System.currentTimeMillis() - startTime;
+
+        System.out.println(endTime);
     }
 
 }
