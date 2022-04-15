@@ -1,5 +1,5 @@
 application:
-  region: eu
+  
   server:
     port: 7080
     url: http://localhost
@@ -9,10 +9,16 @@ application:
     db-name: wow_companion_db
     user: wow_companion_user
     password: WoWCompanionPass2022
+  api:
+    blizzard:
+      region: eu
+      timeout: 1000
 
 logging:
   level:
-    fr.wowcompanion.server.tools.oauth2.BlizzardOAuth2FlowHandler: INFO
+    fr.wowcompanion.server.tools:
+      oauth2.BlizzardOAuth2FlowHandler: INFO
+      api.blizzardapi.BlizzardApiInterceptor : INFO
     org:
       apache: INFO
       springframework:
@@ -52,8 +58,8 @@ spring:
             authorization-grant-type: authorization_code 
         provider:
           blizzard:
-            issuer-uri: https://${application.region}.battle.net/oauth
-            authorization-uri: https://${application.region}.battle.net/oauth/authorize
-            token-uri: https://${application.region}.battle.net/oauth/token
-            user-info-uri: https://${application.region}.battle.net/oauth/userinfo
+            issuer-uri: https://${application.api.blizzard.region}.battle.net/oauth
+            authorization-uri: https://${application.api.blizzard.region}.battle.net/oauth/authorize
+            token-uri: https://${application.api.blizzard.region}.battle.net/oauth/token
+            user-info-uri: https://${application.api.blizzard.region}.battle.net/oauth/userinfo
             user-name-attribute: battletag

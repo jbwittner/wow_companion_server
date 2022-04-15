@@ -3,12 +3,16 @@ package fr.wowcompanion.server.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterData;
+import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterIndexData;
 import fr.wowcompanion.openapi.api.UserApi;
 import fr.wowcompanion.openapi.model.UserDTO;
 import fr.wowcompanion.openapi.model.UserRegistrationParameter;
 import fr.wowcompanion.server.service.UserService;
+import fr.wowcompanion.server.tools.api.blizzardapi.BlizzardAPIHelper;
 
 
 @RestController
@@ -16,6 +20,9 @@ public class UserController implements UserApi {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BlizzardAPIHelper blizzardAPIHelper;
 
     @Override
     public ResponseEntity<UserDTO> userRegistration(final UserRegistrationParameter userRegistrationParameter){
@@ -27,6 +34,19 @@ public class UserController implements UserApi {
     public ResponseEntity<UserDTO> getUser() {
         final UserDTO userDTO = this.userService.getUser();
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/toto")
+    public void toto() {
+        var tata = this.blizzardAPIHelper.getProfileAccountData();
+        //System.out.println(tata);
+
+        var characters = tata.getWowAccounts().get(0).getCharacters();
+
+        for(CharacterIndexData characterIndexData : characters){
+            var character = this.blizzardAPIHelper.getCharacter(characterIndexData.getRealm().getSlug(), characterIndexData.getName());
+            //System.out.println(character);
+        }
     }
 
 }

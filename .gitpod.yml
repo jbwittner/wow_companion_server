@@ -1,3 +1,4 @@
+
 image:
   file: .gitpod.Dockerfile
 
@@ -5,20 +6,29 @@ github:
   prebuilds:
     # enable for the master/default branch (defaults to true)
     master: true
-    # enable for all branches in this repo (defaults to false)
+# enable for all branches in this repo (defaults to false)
     branches: false
-    # enable for pull requests coming from this repo (defaults to true)
+# enable for pull requests coming from this repo (defaults to true)
     pullRequests: false
-    # enable for pull requests coming from forks (defaults to false)
+# enable for pull requests coming from forks (defaults to false)
     pullRequestsFromForks: false
-    # add a "Review in Gitpod" button as a comment to pull requests (defaults to true)
+# add a "Review in Gitpod" button as a comment to pull requests (defaults to true)
     addComment: false
-    # add a "Review in Gitpod" button to pull requests (defaults to false)
+# add a "Review in Gitpod" button to pull requests (defaults to false)
     addBadge: false
-    # add a label once the prebuild is ready to pull requests (defaults to false)
+# add a label once the prebuild is ready to pull requests (defaults to false)
     addLabel: prebuilt-in-gitpod
 
 tasks:
   - before: cp .gitpod/settings.xml ~/.m2/settings.xml
   - init: mvn package -DskipTests=false # runs during prebuild
   - command: echo 'start script'
+
+vscode:
+  extensions:
+  - vscjava.vscode-java-pack
+  - vscjava.vscode-spring-boot-dashboard
+  - pivotal.vscode-spring-boot
+  - gabrielbb.vscode-lombok
+  - pivotal.vscode-boot-dev-pack
+  - SonarSource.sonarlint-vscode
