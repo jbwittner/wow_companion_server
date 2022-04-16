@@ -1,5 +1,4 @@
 application:
-  
   server:
     port: 7080
     url: http://localhost
