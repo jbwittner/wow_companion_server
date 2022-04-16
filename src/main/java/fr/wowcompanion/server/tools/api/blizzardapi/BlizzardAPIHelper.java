@@ -28,9 +28,6 @@ import okhttp3.OkHttpClient;
 @Component
 public class BlizzardAPIHelper {
 
-    private String basePath;
-    private String staticRegion;
-    private String dynamicRegion;
     private String profileRegion;
 
     private OAuth oAuthSample;
@@ -52,9 +49,8 @@ public class BlizzardAPIHelper {
 
     @PostConstruct
     private void init(){
-        this.basePath = String.format("https://%s.api.blizzard.com", this.regionValue);
-        this.staticRegion = String.format("static-%s", this.regionValue);
-        this.dynamicRegion = String.format("dynamic-%s", this.regionValue);
+        final String basePath = String.format("https://%s.api.blizzard.com", this.regionValue);
+
         this.profileRegion = String.format("profile-%s", this.regionValue);
 
         final ApiClient defaultClient = Configuration.getDefaultApiClient();
@@ -98,7 +94,7 @@ public class BlizzardAPIHelper {
         }
     }
 
-    public void getCharacterAsync(final String realmSlug, final String characterName, ApiCallback<CharacterData> callback) throws IOException{
+    public void getCharacterAsync(final String realmSlug, final String characterName, final ApiCallback<CharacterData> callback) throws IOException{
         try {
             this.updateServerToken();
             this.characterProfileApi.getCharacterAsync(this.profileRegion, this.regionValue, realmSlug, characterName, "", callback);
