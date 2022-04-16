@@ -98,7 +98,7 @@
       <properties>
          <property name="ignoredAnnotations" value="java.lang.Override" />
          <property name="checkBooleanMethod" value="true" />
-         <property name="checkGetters" value="true" />
+         <property name="checkGetters" value="false" />
          <property name="checkSetters" value="true" />
          <property name="checkPrefixedTransformMethods" value="true" />
          <property name="checkTransformMethods" value="false" />

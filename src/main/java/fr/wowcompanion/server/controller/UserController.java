@@ -10,7 +10,6 @@ import fr.wowcompanion.openapi.model.UserDTO;
 import fr.wowcompanion.openapi.model.UserRegistrationParameter;
 import fr.wowcompanion.server.service.UserService;
 
-
 @RestController
 public class UserController implements UserApi {
     
