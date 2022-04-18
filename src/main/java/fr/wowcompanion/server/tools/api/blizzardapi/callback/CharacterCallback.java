@@ -59,7 +59,7 @@ public class CharacterCallback extends CompletableFuture<CharacterData> implemen
 
     @Override
     public void onFailure(final ApiException e, final int statusCode, final Map<String, List<String>> responseHeaders) {
-        LOGGER.info("FAIL CharacterCallback : {}", characterName);
+        LOGGER.info("FAIL CharacterCallback : {} - {}", characterName, e.getMessage());
         super.complete(null);
     }
 
@@ -77,6 +77,8 @@ public class CharacterCallback extends CompletableFuture<CharacterData> implemen
             character = new Character();
             character.setId(result.getId());
         }
+
+        character.setName(result.getName());
 
         PlayableRace playableRace = this.playableRaceRepository.findById(result.getRace().getId()).orElseThrow();
         character.setPlayableRace(playableRace);

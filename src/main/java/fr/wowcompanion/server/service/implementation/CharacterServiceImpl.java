@@ -63,7 +63,9 @@ public class CharacterServiceImpl implements CharacterService {
             characterIndexDatas.addAll(wowAccountData.getCharacters());
         });
 
-        var toto = characterIndexDatas.stream().map(this::fetchCharacter).map(CharacterCallback::join).toList();
+        var toto = characterIndexDatas.stream().map(this::fetchCharacter);
+        
+        var tata = toto.map(CharacterCallback::join).toList();
 
         return null;
     }
