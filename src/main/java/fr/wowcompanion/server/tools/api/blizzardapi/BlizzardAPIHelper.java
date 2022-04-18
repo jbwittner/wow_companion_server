@@ -94,11 +94,11 @@ public class BlizzardAPIHelper {
         }
     }
 
-    public void getCharacterAsync(final String realmSlug, final String characterName, final ApiCallback<CharacterData> callback) throws IOException{
+    public void getCharacterAsync(final String realmSlug, final String characterName, final ApiCallback<CharacterData> callback) {
         try {
             this.updateServerToken();
             this.characterProfileApi.getCharacterAsync(this.profileRegion, this.regionValue, realmSlug, characterName, "", callback);
-        } catch (ApiException e) {
+        } catch (ApiException | IOException e) {
             throw new BlizzardAPIException(e);
         }
     }

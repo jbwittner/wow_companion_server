@@ -40,6 +40,10 @@ public class Character extends MotherBlizzardModel {
     private PlayableRace playableRace;
 
     @ManyToOne
+    @JoinColumn(name = "MAIN_PLAYABLE_SPECIALIZATION_ID")
+    private PlayableSpecialization mainPlayableSpecialization;
+
+    @ManyToOne
     @JoinColumn(name = "COVENANT_ID")
     private Covenant covenant;
 
@@ -49,10 +53,6 @@ public class Character extends MotherBlizzardModel {
     @ManyToOne
     @JoinColumn(name = "GUILD_RANK_ID")
     private GuildRank guildRank;
-
-    @ManyToOne
-    @JoinColumn(name = "FACTION_ID")
-    private Faction faction;
 
     @Column(name= "IS_FAVORITE")
     private boolean isFavorite = false;
