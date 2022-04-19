@@ -67,7 +67,7 @@ public class Character extends MotherBlizzardModel {
     private Long lastLoginTimestamp;
 
     @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    private boolean isActive = false;
 
     @Column(name = "MEDIA_AVATAR_URL")
     private String mediaAvatarURL;

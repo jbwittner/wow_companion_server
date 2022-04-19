@@ -4,7 +4,7 @@ application:
     url: http://localhost
   db-param:
     host: localhost
-    port: 7000
+    port: 3306
     db-name: wow_companion_db
     user: wow_companion_user
     password: WoWCompanionPass2022
@@ -52,7 +52,7 @@ spring:
             client-name: WoW Companion (DEV)
             provider: blizzard
             scope: wow.profile
-            redirect-uri: "${application.server.url}:${application.server.port}/login/oauth2/code/oauth-blizzard"
+            redirect-uri: "https://7080-jbwittner-wowcompanionse-7gg739u2wzn.ws-eu40.gitpod.io/login/oauth2/code/oauth-blizzard"
             client-authentication-method: basic
             authorization-grant-type: authorization_code 
         provider:

@@ -15,9 +15,11 @@ import fr.jbwittner.blizzardswagger.wowretailapi.ApiClient;
 import fr.jbwittner.blizzardswagger.wowretailapi.ApiException;
 import fr.jbwittner.blizzardswagger.wowretailapi.Configuration;
 import fr.jbwittner.blizzardswagger.wowretailapi.api.AccountProfileApi;
+import fr.jbwittner.blizzardswagger.wowretailapi.api.CharacterMediaApi;
 import fr.jbwittner.blizzardswagger.wowretailapi.api.CharacterProfileApi;
 import fr.jbwittner.blizzardswagger.wowretailapi.auth.OAuth;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterData;
+import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterMediaData;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.ProfileAccountData;
 import fr.wowcompanion.server.exception.BlizzardAPIException;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
@@ -34,6 +36,7 @@ public class BlizzardAPIHelper {
 
     private AccountProfileApi accountProfileApi;
     private CharacterProfileApi characterProfileApi;
+    private CharacterMediaApi characterMediaApi;
 
     @Autowired
     private BlizzardOAuth2FlowHandler blizzardOAuth2FlowHandler;
@@ -75,6 +78,8 @@ public class BlizzardAPIHelper {
 
         this.accountProfileApi = new AccountProfileApi(defaultClient);
         this.characterProfileApi = new CharacterProfileApi(defaultClient);
+        this.characterMediaApi = new CharacterMediaApi(defaultClient);
+        
     }   
 
     private void updateServerToken() throws IOException{
@@ -98,6 +103,15 @@ public class BlizzardAPIHelper {
         try {
             this.updateServerToken();
             this.characterProfileApi.getCharacterAsync(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), "", callback);
+        } catch (ApiException | IOException e) {
+            throw new BlizzardAPIException(e);
+        }
+    }
+
+    public void getCharacterMediaAsync(final String realmSlug, final String characterName, final ApiCallback<CharacterMediaData> callback) {
+        try {
+            this.updateServerToken();
+            this.characterMediaApi.getCharacterMediaAsync(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), "", callback);
         } catch (ApiException | IOException e) {
             throw new BlizzardAPIException(e);
         }
