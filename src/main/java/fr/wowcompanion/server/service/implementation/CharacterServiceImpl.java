@@ -92,16 +92,10 @@ public class CharacterServiceImpl implements CharacterService {
                 .stream()
                 .forEach(SaveActiveCharacterMediaCallback::join);
 
-        final List<Character> savedCharacters = characters.stream().map(arg0 -> {
-            return this.characterRepository.save(arg0);
-        }).collect(Collectors.toList());
-        
-        savedCharacters.stream().forEach(arg0 -> {
-            System.out.println(arg0);
-            System.out.println(arg0);
-            System.out.println(arg0);
-        });
 
+
+        final List<Character> savedCharacters = this.characterRepository.saveAll(characters);
+        
         return CHARACTER_DTO_BUILDER.transformAll(savedCharacters);
     }
 

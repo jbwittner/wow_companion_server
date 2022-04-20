@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql
--- Généré le : lun. 18 avr. 2022 à 21:40
+-- Généré le : mer. 20 avr. 2022 à 15:15
 -- Version du serveur : 8.0.28
 -- Version de PHP : 8.0.15
 
@@ -29,7 +29,6 @@ USE `wow_companion_db`;
 -- Structure de la table `CHARACTERS`
 --
 
-DROP TABLE IF EXISTS `CHARACTERS`;
 CREATE TABLE `CHARACTERS` (
   `ID` int NOT NULL,
   `AVERAGE_ITEM_LEVEL` int DEFAULT NULL,
@@ -59,7 +58,6 @@ CREATE TABLE `CHARACTERS` (
 -- Structure de la table `COVENANT`
 --
 
-DROP TABLE IF EXISTS `COVENANT`;
 CREATE TABLE `COVENANT` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -83,7 +81,6 @@ CREATE TABLE `COVENANT` (
 -- Structure de la table `FACTIONS`
 --
 
-DROP TABLE IF EXISTS `FACTIONS`;
 CREATE TABLE `FACTIONS` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -107,7 +104,6 @@ CREATE TABLE `FACTIONS` (
 -- Structure de la table `GUILDS`
 --
 
-DROP TABLE IF EXISTS `GUILDS`;
 CREATE TABLE `GUILDS` (
   `ID` int NOT NULL,
   `NAME` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -122,7 +118,6 @@ CREATE TABLE `GUILDS` (
 -- Structure de la table `GUILD_RANKS`
 --
 
-DROP TABLE IF EXISTS `GUILD_RANKS`;
 CREATE TABLE `GUILD_RANKS` (
   `ID` int NOT NULL,
   `NAME` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -135,7 +130,6 @@ CREATE TABLE `GUILD_RANKS` (
 -- Structure de la table `hibernate_sequence`
 --
 
-DROP TABLE IF EXISTS `hibernate_sequence`;
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -146,7 +140,6 @@ CREATE TABLE `hibernate_sequence` (
 -- Structure de la table `PLAYABLE_CLASSES`
 --
 
-DROP TABLE IF EXISTS `PLAYABLE_CLASSES`;
 CREATE TABLE `PLAYABLE_CLASSES` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -170,7 +163,6 @@ CREATE TABLE `PLAYABLE_CLASSES` (
 -- Structure de la table `PLAYABLE_RACES`
 --
 
-DROP TABLE IF EXISTS `PLAYABLE_RACES`;
 CREATE TABLE `PLAYABLE_RACES` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -194,7 +186,6 @@ CREATE TABLE `PLAYABLE_RACES` (
 -- Structure de la table `PLAYABLE_SPECIALIZATIONS`
 --
 
-DROP TABLE IF EXISTS `PLAYABLE_SPECIALIZATIONS`;
 CREATE TABLE `PLAYABLE_SPECIALIZATIONS` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -220,7 +211,6 @@ CREATE TABLE `PLAYABLE_SPECIALIZATIONS` (
 -- Structure de la table `REALMS`
 --
 
-DROP TABLE IF EXISTS `REALMS`;
 CREATE TABLE `REALMS` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -248,7 +238,6 @@ CREATE TABLE `REALMS` (
 -- Structure de la table `REALM_CATEGORY`
 --
 
-DROP TABLE IF EXISTS `REALM_CATEGORY`;
 CREATE TABLE `REALM_CATEGORY` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -272,7 +261,6 @@ CREATE TABLE `REALM_CATEGORY` (
 -- Structure de la table `REALM_TYPE`
 --
 
-DROP TABLE IF EXISTS `REALM_TYPE`;
 CREATE TABLE `REALM_TYPE` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -296,7 +284,6 @@ CREATE TABLE `REALM_TYPE` (
 -- Structure de la table `SPECIALIZATION_ROLES`
 --
 
-DROP TABLE IF EXISTS `SPECIALIZATION_ROLES`;
 CREATE TABLE `SPECIALIZATION_ROLES` (
   `ID` int NOT NULL,
   `DE_DE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -320,7 +307,6 @@ CREATE TABLE `SPECIALIZATION_ROLES` (
 -- Structure de la table `USER_ACCOUNT`
 --
 
-DROP TABLE IF EXISTS `USER_ACCOUNT`;
 CREATE TABLE `USER_ACCOUNT` (
   `BLIZZARD_ID` int NOT NULL,
   `BATTLE_TAG` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,

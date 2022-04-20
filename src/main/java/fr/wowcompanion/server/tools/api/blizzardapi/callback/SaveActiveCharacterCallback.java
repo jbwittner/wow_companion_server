@@ -61,9 +61,6 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
     public void onSuccess(final CharacterData result, final int statusCode, final Map<String, List<String>> responseHeaders) {
         LOGGER.info("SUCESS SaveActiveCharacterCallback : {} - {} - {}", this.character.getName(), this.character.getRealm().getSlug(), statusCode);
 
-        PlayableSpecialization playableSpecialization = this.playableSpecializationRepository.getById(result.getActiveSpec().getId());
-        character.setMainPlayableSpecialization(playableSpecialization);
-
         character.setAverageItemLevel(result.getAverageItemLevel());
         character.setEquippedItemLevel(result.getEquippedItemLevel());
 
@@ -71,8 +68,13 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
 
         CovenantProgressData covenantProgressData = result.getCovenantProgress();
 
+        if(character.getMainPlayableSpecialization() == null){
+            PlayableSpecialization playableSpecialization = this.playableSpecializationRepository.getById(result.getActiveSpec().getId());
+            character.setMainPlayableSpecialization(playableSpecialization);
+        }
+
         if(result.getCovenantProgress() != null) {
-            Covenant covenant = this.covenantRepository.getById(covenantProgressData.getChosenCovenant().getId());
+            Covenant covenant = this.covenantRepository.findById(covenantProgressData.getChosenCovenant().getId()).get();
             character.setCovenant(covenant);
             character.setRenownLevel(covenantProgressData.getRenownLevel());
         }

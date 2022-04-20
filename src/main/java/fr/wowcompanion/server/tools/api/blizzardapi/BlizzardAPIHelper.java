@@ -80,7 +80,11 @@ public class BlizzardAPIHelper {
         this.characterProfileApi = new CharacterProfileApi(defaultClient);
         this.characterMediaApi = new CharacterMediaApi(defaultClient);
         
-    }   
+    }
+
+    private String getCurrentLocale(){
+        return "en_US";
+    }
 
     private void updateServerToken() throws IOException{
         this.oAuthSample.setAccessToken(this.blizzardOAuth2FlowHandler.getToken());
@@ -93,7 +97,8 @@ public class BlizzardAPIHelper {
     public ProfileAccountData getProfileAccountData() {
         try {
             this.updateUserToken();
-            return this.accountProfileApi.getUserProfile(this.profileRegion, this.regionValue, "");
+            final String locale = this.getCurrentLocale();
+            return this.accountProfileApi.getUserProfile(this.profileRegion, this.regionValue, locale);
         } catch (ApiException e) {
             throw new BlizzardAPIException(e);
         }
@@ -102,7 +107,8 @@ public class BlizzardAPIHelper {
     public void getCharacterAsync(final String realmSlug, final String characterName, final ApiCallback<CharacterData> callback) {
         try {
             this.updateServerToken();
-            this.characterProfileApi.getCharacterAsync(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), "", callback);
+            final String locale = this.getCurrentLocale();
+            this.characterProfileApi.getCharacterAsync(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), locale, callback);
         } catch (ApiException | IOException e) {
             throw new BlizzardAPIException(e);
         }
@@ -111,7 +117,8 @@ public class BlizzardAPIHelper {
     public void getCharacterMediaAsync(final String realmSlug, final String characterName, final ApiCallback<CharacterMediaData> callback) {
         try {
             this.updateServerToken();
-            this.characterMediaApi.getCharacterMediaAsync(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), "", callback);
+            final String locale = this.getCurrentLocale();
+            this.characterMediaApi.getCharacterMediaAsync(this.profileRegion, this.regionValue, realmSlug, characterName.toLowerCase(), locale, callback);
         } catch (ApiException | IOException e) {
             throw new BlizzardAPIException(e);
         }

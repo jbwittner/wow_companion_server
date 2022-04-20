@@ -51,14 +51,12 @@ public class SaveActiveCharacterMediaCallback extends CompletableFuture<Characte
 
     @Override
     public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
-        // TODO Auto-generated method stub
-        
+        /* Don't need this part */
     }
 
     @Override
     public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
-        // TODO Auto-generated method stub
-        
+        /* Don't need this part */
     }
     
 }

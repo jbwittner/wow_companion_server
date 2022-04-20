@@ -20,5 +20,10 @@ public class PlayableClass extends MotherLocalizedBlizzardModel{
 
     @OneToMany(mappedBy = "playableClass", cascade = CascadeType.ALL)
     private List<PlayableSpecialization> playableSpecializationList;
-    
+
+	@Override
+	public String toString() {
+		return "PlayableClass [playableSpecializationList=" + playableSpecializationList + "]";
+	}
+
 }

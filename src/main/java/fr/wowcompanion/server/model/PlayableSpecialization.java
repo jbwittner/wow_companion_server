@@ -28,4 +28,10 @@ public class PlayableSpecialization extends MotherLocalizedBlizzardModel{
     )
     private SpecializationRole specializationRole;
 
+	@Override
+	public String toString() {
+		return "PlayableSpecialization [playableClass=" + playableClass.getLocalizedModel().getEnGB() + ", specializationRole=" + specializationRole.getType()
+				+ "]";
+	}
+
 }

@@ -5,14 +5,10 @@ import lombok.Data;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.NameObjectData;
 import fr.wowcompanion.server.model.embeddable.LocalizedModel;
 
-import java.util.Locale;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * Abstract class for Blizzard models
@@ -26,7 +22,7 @@ public class MotherLocalizedBlizzardModel {
     protected Integer id;
 
     @Embedded
-    private LocalizedModel localizedModel;
+    protected LocalizedModel localizedModel;
 
     public void buildLocalizedModel(final NameObjectData nameObjectData){
         this.localizedModel = new LocalizedModel();

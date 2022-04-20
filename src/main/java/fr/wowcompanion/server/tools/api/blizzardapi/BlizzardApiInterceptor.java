@@ -24,7 +24,7 @@ public class BlizzardApiInterceptor implements Interceptor {
 
         Response response;
 
-        LOGGER.info("Starting api call : '{}'",chain.request().url().uri());
+        LOGGER.info("STARTING Api call : '{}'",chain.request().url().uri());
 
         int count = 0;
 
@@ -40,7 +40,7 @@ public class BlizzardApiInterceptor implements Interceptor {
 
             if(count >= LIMIT_CALL){
                 doContinue = false;
-                LOGGER.warn("Ending api call : '{}' limit call",chain.request().url().uri());
+                LOGGER.warn("ENDING api call : '{}' limit call",chain.request().url().uri());
             }
 
             try {
