@@ -2,7 +2,6 @@ package fr.wowcompanion.server.tools.api.blizzardapi.callback;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import fr.jbwittner.blizzardswagger.wowretailapi.ApiCallback;
@@ -11,18 +10,13 @@ import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterData;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.CovenantProgressData;
 import fr.wowcompanion.server.model.Character;
 import fr.wowcompanion.server.model.Covenant;
-import fr.wowcompanion.server.model.PlayableClass;
-import fr.wowcompanion.server.model.PlayableRace;
 import fr.wowcompanion.server.model.PlayableSpecialization;
-import fr.wowcompanion.server.model.Realm;
-import fr.wowcompanion.server.repository.CharacterRepository;
 import fr.wowcompanion.server.repository.CovenantRepository;
 import fr.wowcompanion.server.repository.PlayableClassRepository;
 import fr.wowcompanion.server.repository.PlayableRaceRepository;
 import fr.wowcompanion.server.repository.PlayableSpecializationRepository;
 import fr.wowcompanion.server.repository.RealmRepository;
 import fr.wowcompanion.server.repository.UserAccountRepository;
-import fr.wowcompanion.server.tools.api.blizzardapi.BlizzardAPIHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +27,6 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
     protected static final Logger LOGGER = LoggerFactory.getLogger(SaveActiveCharacterCallback.class);
 
     protected Character character;
-    protected final CharacterRepository characterRepository;
     protected final RealmRepository realmRepository;
     protected final PlayableClassRepository playableClassRepository;
     protected final PlayableRaceRepository playableRaceRepository;
@@ -42,7 +35,6 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
     protected final UserAccountRepository userAccountRepository;
 
     public SaveActiveCharacterCallback(final Character character,
-                            final CharacterRepository characterRepository,
                             final RealmRepository realmRepository,
                             final PlayableClassRepository playableClassRepository,
                             final PlayableRaceRepository playableRaceRepository,
@@ -50,7 +42,6 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
                             final PlayableSpecializationRepository playableSpecializationRepository,
                             final UserAccountRepository userAccountRepository) {
         this.character = character;
-        this.characterRepository = characterRepository;
         this.realmRepository = realmRepository;
         this.playableClassRepository = playableClassRepository;
         this.playableRaceRepository = playableRaceRepository;
@@ -80,15 +71,13 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
 
         CovenantProgressData covenantProgressData = result.getCovenantProgress();
 
-        if(covenantProgressData != null) {
+        if(result.getCovenantProgress() != null) {
             Covenant covenant = this.covenantRepository.getById(covenantProgressData.getChosenCovenant().getId());
             character.setCovenant(covenant);
             character.setRenownLevel(covenantProgressData.getRenownLevel());
         }
 
         character.setIsActiveTrue();
-
-        character = this.characterRepository.save(character);
 
         LOGGER.info("ENDING SaveActiveCharacterCallback : {} - {}", this.character.getName(), this.character.getRealm().getSlug());
         

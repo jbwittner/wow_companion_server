@@ -2,14 +2,21 @@ package fr.wowcompanion.server.model.embeddable;
 
 import lombok.Data;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import fr.jbwittner.blizzardswagger.wowretailapi.model.NameObjectData;
 
 @Data
 @Embeddable
 public class LocalizedModel {
+
+    private static final String ENGLISH = "en";
+    private static final String FRENCH = "fr";
 
     @Column(name="EN_US")
     private String enUS;
@@ -61,5 +68,29 @@ public class LocalizedModel {
         this.zhTW = nameObjectData.getZhTW();
         this.zhCN = nameObjectData.getZhCN();
     }
+
+    public String getLocalizedData(){
+
+        Locale locale = LocaleContextHolder.getLocale();
+
+        String data;
+
+        switch (locale.getLanguage()) {
+            case ENGLISH:
+                data = this.getEnGB();
+                break;
+
+            case FRENCH:
+                data = this.getFrFR();
+                break;
+        
+            default:
+                data = this.getEnGB();
+                break;
+        }
+
+        return data;
+    }
+
 
 }

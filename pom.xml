@@ -17,6 +17,8 @@
         <java.version>17</java.version>
         <sonar.organization>jbwittner</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <blizzard.swagger.version>0.8.0</blizzard.swagger.version>
+        <wowcompanion.swagger.version>0.1.1</wowcompanion.swagger.version>
     </properties>
     <dependencies>
         <!--Core-->
@@ -50,12 +52,12 @@
         <dependency>
             <groupId>fr.wowcompanion</groupId>
             <artifactId>openapi</artifactId>
-            <version>0.1.0</version>
+            <version>${wowcompanion.swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.jbwittner.blizzardswagger</groupId>
             <artifactId>wowretailapi</artifactId>
-            <version>0.8.0</version>
+            <version>${blizzard.swagger.version}</version>
         </dependency>
         <!--Core-->
         <!--Database-->

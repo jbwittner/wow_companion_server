@@ -98,6 +98,7 @@ public class Character extends MotherBlizzardModel {
     public String toString() {
         return "Character{" +
                 "name='" + name + '\'' +
+                ", realmSlug=" + realm.getSlug() +
                 ", level=" + level +
                 ", id=" + id +
                 ", isActive=" + isActive +

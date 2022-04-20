@@ -1,6 +1,6 @@
 application:
   server:
-    port: 7080
+    port: 8080
     url: http://localhost
   db-param:
     host: localhost
@@ -52,7 +52,7 @@ spring:
             client-name: WoW Companion (DEV)
             provider: blizzard
             scope: wow.profile
-            redirect-uri: "https://7080-jbwittner-wowcompanionse-7gg739u2wzn.ws-eu40.gitpod.io/login/oauth2/code/oauth-blizzard"
+            redirect-uri: "${application.server.url}:${application.server.port}/login/oauth2/code/oauth-blizzard"
             client-authentication-method: basic
             authorization-grant-type: authorization_code 
         provider:
