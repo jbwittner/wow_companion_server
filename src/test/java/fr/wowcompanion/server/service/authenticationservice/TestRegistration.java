@@ -1,4 +1,4 @@
-package fr.wowcompanion.server.service.userservice;
+package fr.wowcompanion.server.service.authenticationservice;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import fr.wowcompanion.server.exception.UserNameAlreadyUsedException;
 import fr.wowcompanion.server.model.UserAccount;
 import fr.wowcompanion.server.repository.UserAccountRepository;
 import fr.wowcompanion.server.security.BlizzardDetail;
-import fr.wowcompanion.server.service.implementation.UserServiceImpl;
+import fr.wowcompanion.server.service.implementation.AuthenticationServiceImpl;
 import fr.wowcompanion.server.testhelper.AbstractMotherIntegrationTest;
 import fr.wowcompanion.server.tools.oauth2.AuthenticationFacade;
 
@@ -26,14 +26,14 @@ class TestRegistration extends AbstractMotherIntegrationTest {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    private UserServiceImpl userServiceImpl;
+    private AuthenticationServiceImpl authenticationServiceImpl;
 
     private UserRegistrationParameter userRegistrationParameter;
     private BlizzardDetail blizzardDetail;
 
     @Override
     protected void initDataBeforeEach() {
-        this.userServiceImpl = new UserServiceImpl(this.authenticationFacade, this.userAccountRepository);
+        this.authenticationServiceImpl = new AuthenticationServiceImpl(this.authenticationFacade, this.userAccountRepository);
         this.userRegistrationParameter = new UserRegistrationParameter();
         this.userRegistrationParameter.setEmail(this.testFactory.getUniqueRandomEmail());
         this.userRegistrationParameter.setUserName(this.testFactory.getRandomAlphanumericString());
@@ -47,7 +47,7 @@ class TestRegistration extends AbstractMotherIntegrationTest {
     void testRegistrationOk(){
         Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
 
-        final UserDTO userDTO = this.userServiceImpl.registration(this.userRegistrationParameter);
+        final UserDTO userDTO = this.authenticationServiceImpl.registration(this.userRegistrationParameter);
 
         Assertions.assertEquals(this.blizzardDetail.getBlizzardId(), userDTO.getBlizzardId());
         Assertions.assertEquals(this.blizzardDetail.getBattleTag(), userDTO.getBattletag());
@@ -64,7 +64,7 @@ class TestRegistration extends AbstractMotherIntegrationTest {
         Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
 
         Assertions.assertThrows(UserAlreadyRegistredException.class, () -> {
-            this.userServiceImpl.registration(this.userRegistrationParameter);
+            this.authenticationServiceImpl.registration(this.userRegistrationParameter);
         });
     }
 
@@ -76,7 +76,7 @@ class TestRegistration extends AbstractMotherIntegrationTest {
         Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
 
         Assertions.assertThrows(UserAlreadyRegistredException.class, () -> {
-            this.userServiceImpl.registration(this.userRegistrationParameter);
+            this.authenticationServiceImpl.registration(this.userRegistrationParameter);
         });
     }
 
@@ -88,7 +88,7 @@ class TestRegistration extends AbstractMotherIntegrationTest {
         Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
 
         Assertions.assertThrows(EmailAlreadyUsedException.class, () -> {
-            this.userServiceImpl.registration(this.userRegistrationParameter);
+            this.authenticationServiceImpl.registration(this.userRegistrationParameter);
         });
     }
 
@@ -100,7 +100,7 @@ class TestRegistration extends AbstractMotherIntegrationTest {
         Mockito.when(this.authenticationFacade.getBlizzardDetail()).thenReturn(this.blizzardDetail);
 
         Assertions.assertThrows(UserNameAlreadyUsedException.class, () -> {
-            this.userServiceImpl.registration(this.userRegistrationParameter);
+            this.authenticationServiceImpl.registration(this.userRegistrationParameter);
         });
     }
     

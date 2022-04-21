@@ -14,6 +14,12 @@ import fr.wowcompanion.server.service.CharacterService;
 @RestController
 public class CharacterController implements CharacterApi {
     
+    @Override
+    public ResponseEntity<List<CharacterDTO>> getCharacters() {
+        // TODO Auto-generated method stub
+        return CharacterApi.super.getCharacters();
+    }
+
     @Autowired
     private CharacterService characterService;
 
