@@ -26,64 +26,26 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(SaveActiveCharacterCallback.class);
 
-    protected Character character;
-    protected final RealmRepository realmRepository;
-    protected final PlayableClassRepository playableClassRepository;
-    protected final PlayableRaceRepository playableRaceRepository;
-    protected final CovenantRepository covenantRepository;
-    protected final PlayableSpecializationRepository playableSpecializationRepository;
-    protected final UserAccountRepository userAccountRepository;
+    private String characterName;
+    private String characterRealmSlug;
 
-    public SaveActiveCharacterCallback(final Character character,
-                            final RealmRepository realmRepository,
-                            final PlayableClassRepository playableClassRepository,
-                            final PlayableRaceRepository playableRaceRepository,
-                            final CovenantRepository covenantRepository,
-                            final PlayableSpecializationRepository playableSpecializationRepository,
-                            final UserAccountRepository userAccountRepository) {
-        this.character = character;
-        this.realmRepository = realmRepository;
-        this.playableClassRepository = playableClassRepository;
-        this.playableRaceRepository = playableRaceRepository;
-        this.covenantRepository = covenantRepository;
-        this.playableSpecializationRepository = playableSpecializationRepository;
-        this.userAccountRepository = userAccountRepository;
-                            }
+    public SaveActiveCharacterCallback(String characterName, String characterRealmSlug) {
+        this.characterName = characterName;
+        this.characterRealmSlug = characterRealmSlug;
+    }
 
 
     @Override
     public void onFailure(final ApiException e, final int statusCode, final Map<String, List<String>> responseHeaders) {
-        LOGGER.info("FAIL SaveActiveCharacterCallback : {} - {} - {} - {}", this.character.getName(), this.character.getRealm().getSlug(), statusCode, e.getMessage());
+        LOGGER.info("FAIL SaveActiveCharacterCallback : {} - {} - {} - {}", this.characterName, this.characterRealmSlug, statusCode, e.getMessage());
         super.complete(null);
     }
 
     @Override
     public void onSuccess(final CharacterData result, final int statusCode, final Map<String, List<String>> responseHeaders) {
-        LOGGER.info("SUCESS SaveActiveCharacterCallback : {} - {} - {}", this.character.getName(), this.character.getRealm().getSlug(), statusCode);
-
-        character.setAverageItemLevel(result.getAverageItemLevel());
-        character.setEquippedItemLevel(result.getEquippedItemLevel());
-
-        character.setLastLoginTimestamp(result.getLastLoginTimestamp());
-
-        CovenantProgressData covenantProgressData = result.getCovenantProgress();
-
-        if(character.getMainPlayableSpecialization() == null){
-            PlayableSpecialization playableSpecialization = this.playableSpecializationRepository.getById(result.getActiveSpec().getId());
-            character.setMainPlayableSpecialization(playableSpecialization);
-        }
-
-        if(result.getCovenantProgress() != null) {
-            Covenant covenant = this.covenantRepository.getById(covenantProgressData.getChosenCovenant().getId());
-            character.setCovenant(covenant);
-            character.setRenownLevel(covenantProgressData.getRenownLevel());
-        }
-
-        character.setIsActiveTrue();
-
-        LOGGER.info("ENDING SaveActiveCharacterCallback : {} - {}", this.character.getName(), this.character.getRealm().getSlug());
+        LOGGER.info("SUCESS SaveActiveCharacterCallback : {} - {} - {}", this.characterName, this.characterRealmSlug, statusCode);
         
-        super.complete(character);
+        super.complete(null);
         
     }
 
