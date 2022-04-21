@@ -64,12 +64,8 @@ public class LocalizedModel {
 
     public String getLocalizedData(){
 
-        //Locale locale = LocaleContextHolder.getLocale();
+        return this.getEnGB();
 
-        String data = this.getEnGB();
-
-        return data;
     }
-
 
 }

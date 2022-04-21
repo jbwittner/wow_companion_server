@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -77,18 +76,18 @@ public class CharacterServiceImpl implements CharacterService {
 
         final List<Character> characters = characterIndexDatas.stream()
                                                                 .map(this::saveCharacterIndex)
-                                                                .collect(Collectors.toList());
+                                                                .toList();
 
         characters.stream()
                 .map(this::fetchCharacter)
-                .collect(Collectors.toList())
+                .toList()
                 .stream()
                 .map(SaveActiveCharacterCallback::join)
-                .collect(Collectors.toList())
+                .toList()
                 .stream()
                 .filter(Objects::nonNull)
                 .map(this::fetchCharacterMedia)
-                .collect(Collectors.toList())
+                .toList()
                 .stream()
                 .forEach(SaveActiveCharacterMediaCallback::join);
 

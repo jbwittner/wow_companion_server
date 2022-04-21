@@ -30,6 +30,8 @@ import okhttp3.OkHttpClient;
 @Component
 public class BlizzardAPIHelper {
 
+    private static final String DEFAULT_LOCALE = "en_US";
+
     private String profileRegion;
 
     private OAuth oAuthSample;
@@ -83,7 +85,7 @@ public class BlizzardAPIHelper {
     }
 
     private String getCurrentLocale(){
-        return "en_US";
+        return DEFAULT_LOCALE;
     }
 
     private void updateServerToken() throws IOException{

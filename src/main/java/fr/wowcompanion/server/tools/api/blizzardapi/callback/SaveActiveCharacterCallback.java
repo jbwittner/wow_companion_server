@@ -74,7 +74,7 @@ public class SaveActiveCharacterCallback extends CompletableFuture<Character> im
         }
 
         if(result.getCovenantProgress() != null) {
-            Covenant covenant = this.covenantRepository.findById(covenantProgressData.getChosenCovenant().getId()).get();
+            Covenant covenant = this.covenantRepository.getById(covenantProgressData.getChosenCovenant().getId());
             character.setCovenant(covenant);
             character.setRenownLevel(covenantProgressData.getRenownLevel());
         }

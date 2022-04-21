@@ -63,7 +63,7 @@ public class CharacterDTOBuilder implements Transformer<Character, CharacterDTO>
         characterDTO.setMediaInsetURL(input.getMediaInsetURL());
         characterDTO.setMediaMainURL(input.getMediaMainURL());
 
-        final Boolean isActive = input.isActive();
+        final boolean isActive = input.isActive();
 
         characterDTO.setIsActive(isActive);
 
