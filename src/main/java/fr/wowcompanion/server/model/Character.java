@@ -43,7 +43,7 @@ public class Character extends MotherBlizzardModel {
     @JoinColumn(name = "MAIN_PLAYABLE_SPECIALIZATION_ID")
     private PlayableSpecialization mainPlayableSpecialization;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "COVENANT_ID")
     private Covenant covenant;
 

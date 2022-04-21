@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterData;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.CharacterIndexData;
 import fr.jbwittner.blizzardswagger.wowretailapi.model.ProfileAccountData;
 import fr.wowcompanion.openapi.model.CharacterDTO;
@@ -19,8 +20,10 @@ import fr.wowcompanion.server.tools.api.blizzardapi.callback.SaveActiveCharacter
 import fr.wowcompanion.server.tools.api.blizzardapi.callback.SaveActiveCharacterMediaCallback;
 import fr.wowcompanion.server.dto.CharacterDTOBuilder;
 import fr.wowcompanion.server.model.Character;
+import fr.wowcompanion.server.model.Covenant;
 import fr.wowcompanion.server.model.PlayableClass;
 import fr.wowcompanion.server.model.PlayableRace;
+import fr.wowcompanion.server.model.PlayableSpecialization;
 import fr.wowcompanion.server.model.Realm;
 import fr.wowcompanion.server.repository.CharacterRepository;
 import fr.wowcompanion.server.repository.CovenantRepository;
@@ -78,8 +81,11 @@ public class CharacterServiceImpl implements CharacterService {
                                                                 .map(this::saveCharacterIndex)
                                                                 .toList();
 
+        final List<Covenant> covenants = this.covenantRepository.findAll();
+        final List<PlayableSpecialization> playableSpecializations = this.playableSpecializationRepository.findAll();
+
         characters.stream()
-                .map(this::fetchCharacter)
+                .map(arr -> this.fetchCharacter(arr, covenants, playableSpecializations))
                 .toList()
                 .stream()
                 .map(SaveActiveCharacterCallback::join)
@@ -93,7 +99,9 @@ public class CharacterServiceImpl implements CharacterService {
 
 
 
-        final List<Character> savedCharacters = this.characterRepository.saveAll(characters);
+        this.characterRepository.saveAllAndFlush(characters);
+
+        final List<Character> savedCharacters = this.characterRepository.findAll();
         
         return CHARACTER_DTO_BUILDER.transformAll(savedCharacters);
     }
@@ -127,14 +135,9 @@ public class CharacterServiceImpl implements CharacterService {
 
     }
 
-    private SaveActiveCharacterCallback fetchCharacter(final Character character) {
-
-        SaveActiveCharacterCallback saveActiveCharacterCallback = new SaveActiveCharacterCallback(character,
-            this.realmRepository, this.playableClassRepository, this.playableRaceRepository,
-            this.covenantRepository, this.playableSpecializationRepository, this.userAccountRepository);
-
+    private SaveActiveCharacterCallback fetchCharacter(final Character character, final List<Covenant> covenants, List<PlayableSpecialization> playableSpecializations) {
+        SaveActiveCharacterCallback saveActiveCharacterCallback = new SaveActiveCharacterCallback(character, covenants, playableSpecializations);
         this.blizzardAPIHelper.getCharacterAsync(character.getRealm().getSlug(), character.getName(), saveActiveCharacterCallback);
-
         return saveActiveCharacterCallback;
     }
 
