@@ -3,9 +3,5 @@
     "debug.terminal.clearBeforeReusing": true,
     "java.debug.settings.console": "internalConsole",
     "editor.tabSize": 4,
-    "sonarlint.connectedMode.project": {
-        "connectionId": "wow_companion_server",
-        "projectKey": "jbwittner_wow_companion_server"
-    },
     "sonarlint.disableTelemetry": true,
 }
